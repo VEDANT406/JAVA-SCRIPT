@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>JSON Data Table</title>
+  <!-- Load jQuery library -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }
+  </style>
+</head>
+<body>
+
+  <h2>User Directory</h2>
+
+  <!-- Buttons to trigger data fetching -->
+  <button onclick="loadWithFetch()">Load via fetch()</button>
+  <button id="btnJQuery">Load via $.getJSON()</button>
+  <button onclick="clearTable()">Clear Table</button>
+
+  <br><br>
+
+  <!-- Table (starts blank) -->
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody id="userTable">
+      <!-- Starts empty until a button is clicked -->
+    </tbody>
+  </table>
+
+  <script>
+    // Hardcoded JSON records defined directly in the code
+    const myData = [
+      { id: 1, name: "Alice Smith", email: "alice@example.com" },
+      { id: 2, name: "Bob Jones", email: "bob@example.com" },
+      { id: 3, name: "Charlie Brown", email: "charlie@example.com" }
+    ];
+
+    // Function to render records into the table
+    function renderTable(data) {
+      const tbody = document.getElementById('userTable');
+      tbody.innerHTML = ''; // Clear existing rows
+
+      data.forEach(user => {
+        const row = `<tr>
+          <td>${user.id}</td>
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    // Function to clear the table
+    function clearTable() {
+      document.getElementById('userTable').innerHTML = '';
+    }
+
+    // 1. Load using Vanilla JS fetch()
+    function loadWithFetch() {
+      // Simulating fetch by creating a response Promise from local JSON data
+      Promise.resolve(myData)
+        .then(data => renderTable(data));
+    }
+
+    // 2. Load using jQuery $.getJSON() equivalent
+    $(document).ready(function() {$('#btnJQuery').click(function() {
+        // Render data on button click
+        renderTable(myData);
+      });
+    });
+  </script>
+
+</body>
+</html>
